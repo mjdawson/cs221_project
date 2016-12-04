@@ -10,7 +10,7 @@ tracks = track_map = {'The Black Eyed Peas': 'I Got A Feelin', 'Capital Cities':
 
 
 def constructNamesToTuple():
-    trackToFeatures = collections.defaultdict()
+    trackToFeatureTuples = collections.defaultdict()
     for key in tracks:
 		# just open the file...
 		input_file  = file('audioAnalysis/' + tracks[key] + ".json", "r")
@@ -19,15 +19,32 @@ def constructNamesToTuple():
 		# read the file and decode possible UTF-8 signature at the beginning
 		# which can be the case in some files.
 		j = json.loads(input_file.read().decode("utf-8-sig"))
-                trackToFeatures[tracks[key]] = (j["track"]["key"], j["track"]["time_signature"], j["track"]["tempo"])
+                trackToFeatureTuples[tracks[key]] = (j["track"]["key"], j["track"]["time_signature"], j["track"]["tempo"])
 
 		#key, time signature, tempo
+
+
     #    with open('audioAnalysis/' + tracks[key] + '.json') as data_file:
     #        data = json.load(data_file)
     #        pprint(data.meta)
     #        break
             #trackToFeatures[tracks[key]] = ('lol')
     
-    pickle.dump(trackToFeatures, open( "trackToFeatures.p", "wb" ))
+    pickle.dump(trackToFeatureTuples, open("trackToFeatureTuples.p", "wb"))
 
-constructNamesToTuple()
+def constructNamesToDict():
+    tracksToFeatures = collections.defaultdict(lambda: collections.defaultdict(lambda: 0))
+    for title in tracks:
+        input_file = file('audioAnalysis/' + tracks[title] + '.json', 'r')
+
+        j = json.loads(input_file.read().decode("utf-8-sig"))
+        print type(j)
+        tracksToFeatures[tracks[title]] = j
+#        for key in j:
+#            print j[key]
+#            tracksToFeatures[tracks[title]][key] = j[key]
+#            break
+        break
+    pickle.dump(tracksToFeatures, open("trackToFeatures.p", "wb"))
+
+constructNamesToDict()
