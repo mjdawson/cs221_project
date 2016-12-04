@@ -3,6 +3,7 @@ import os
 import random
 import pickle
 
+#ToDo: update to use new features
 def calc_dist(feats1, feats2):
 	key1, time_sign1, tempo1 = feats1
 	key2, time_sign2, tempo2 = feats2
@@ -31,6 +32,8 @@ def mashup_from_cluster(cluster, i):
 	wm.stitch_segments(segments, i)
 
 #songs should be map from song index to (filename, audiofeatures)
+
+#ToDo: update everything that needs track_features
 def kmeans(track_features, k):
 	max_iters = 1000
 
@@ -80,6 +83,7 @@ def kmeans(track_features, k):
 	return clusters
 
 if __name__ == "__main__":
+        #change this
 	track_features = pickle.load(open('trackToFeatures.p', 'rb'))
 	print track_features
 	clusters = kmeans(track_features, 5)
