@@ -115,6 +115,7 @@ def kmeans(track_features, k):
 
 if __name__ == "__main__":
 	track_features = pickle.load(open('trackToFeatureTuples.p', 'rb'))
+	print track_features
 	clusters = kmeans(track_features, 5)
 	for i in xrange(5):
             print clusters[i]
