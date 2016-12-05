@@ -1,20 +1,30 @@
 
 class Segment():
-	def __init__(self, trackName, featuresDict):
-		self.trackName = trackName
-		self.featuresDict = featuresDict
-		self.visited = False
+  def __init__(self, trackName, indexInTrack, featuresDict):
+    self.trackName = trackName
+    self.indexInTrack = indexInTrack
+    self.featuresDict = featuresDict
+    self.visited = False
 
-	def getLoudnessStart():
-		return self.featuresDict["loudness_start"]
+  def getLoudnessStart(self):
+    return self.featuresDict["loudness_start"]
 
-	def getLoudnessEnd():
-		return self.featuresDict["loundess_end"]
-	
-	# returns pitches feature vector (as list)
-	def getPitches():
-		return self.featuresDict["pitches"]
+  def getLoudnessEnd(self):
+    return self.featuresDict["loudness_end"]
 
-	# returns timbre feature vector (as list)
-	def getTimbre():
-		return self.featuresDict["timbre"]
+  def getLoudnessMax(self):
+    return self.featuresDict["loudness_max"]
+  
+  # returns pitches feature vector (as list)
+  def getPitches(self):
+    return self.featuresDict["pitches"]
+
+  # returns timbre feature vector (as list)
+  def getTimbre(self):
+    return self.featuresDict["timbre"]
+  
+  def getStartTime(self):
+    return self.featuresDict["start"]
+  
+  def getDuration(self):
+    return self.featuresDict["duration"]

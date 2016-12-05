@@ -86,14 +86,11 @@ def constructNamesToDict():
 				input_file = file('audioAnalysis/' + tracks[title] + '.json', 'r')
 
 				j = json.loads(input_file.read().decode("utf-8-sig"))
-			#	return j
-
-		print type(j)
-		tracksToFeatures[tracks[title]] = j
+				tracksToFeatures[tracks[title]] = j
 #        for key in j:
 #            print j[key]
 #            tracksToFeatures[tracks[title]][key] = j[key]
 #            break
-		pickle.dump(tracksToFeatures, open("trackToFeatures.p", "wb"))
+#		pickle.dump(tracksToFeatures, open("trackToFeatures.p", "wb"))
+		return tracksToFeatures
 
-constructNamesToTuple()
