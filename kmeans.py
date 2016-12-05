@@ -73,7 +73,7 @@ def mashup_from_cluster(cluster, i):
 
 #songs should be map from song index to (filename, audiofeatures)
 def kmeans(track_features, k):
-  max_iters = 1000
+  max_iters = 100
 
   tracks = track_features.keys()
   centroids = random.sample(tracks, k)

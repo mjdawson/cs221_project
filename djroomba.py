@@ -6,27 +6,51 @@ from mashupSearchProblem import mashupSearchProblem
 import segmentsCost as sc
 import ucs
 import random
+import wav_manipulation as wm
 
 track_features_small = pickle.load(open('trackToFeatureTuples.p', 'rb'))
-clusters = km.kmeans(track_features_small, 5)
+clusters = km.kmeans(track_features_small, 10)
 
 track_features_full = j.constructNamesToDict()
 
 for cluster in clusters:
   # list of Segment objects
-  cluster_segments = []
+  cluster_30segments = []
+  starts = []
   for track in cluster:
     segments = track_features_full[track]["segments"]
+
+    segment30 = []
     for i in xrange(len(segments)):
       s = Segment(track, i, segments[i])
-      cluster_segments.append(s)
+      segment30.append(s)
+      if (i + 1) % 30 == 0:
+        cluster_30segments.append(segment30)
+        if i + 1 == 30:
+          starts.append(segment30)
+        segment30 = []
 
-  start_segs = [s for s in cluster_segments if s.indexInTrack == 0]
-  start = random.choice(start_segs)
+  start = random.choice(starts)
 
-  sp = mashupSearchProblem(cluster_segments, start, 20, sc.segmentsCost)
+  sp = mashupSearchProblem(cluster_30segments, start, 5, sc.segmentsCost)
   ucs_alg = ucs.UniformCostSearch()
   ucs_alg.solve(sp)
+  print ucs_alg.actions
+  #print [(a[0].trackName, a[0].indexInTrack) for a in ucs_alg.actions]
+  mashup = [s for s in start] + [s for a in ucs_alg.actions for s in a]
+ 
+  segment_titles = []
+  for seg in mashup:
+    seg_start = seg.getStartTime()
+    duration = seg.getDuration()
+    seg_end = seg_start + duration
 
-  print [(a.trackName, a.indexInTrack) for a in ucs_alg.actions]
-    
+    title = wm.cut_segment(seg.trackName, seg_start, seg_end)
+    if title == None:
+      continue
+    segment_titles.append(title)
+
+  wm.stitch_segments(segment_titles, 0)
+
+  break
+
