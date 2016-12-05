@@ -81,18 +81,20 @@ def constructNamesToTuple():
     pickle.dump(trackToFeatureTuples, open("trackToFeatureTuples.p", "wb"))
 
 def constructNamesToDict():
-    tracksToFeatures = collections.defaultdict(lambda: collections.defaultdict(lambda: 0))
-    for title in tracks:
-        input_file = file('audioAnalysis/' + tracks[title] + '.json', 'r')
+		tracksToFeatures = collections.defaultdict(lambda: collections.defaultdict(lambda: 0))
+		for title in tracks:
+				input_file = file('audioAnalysis/' + tracks[title] + '.json', 'r')
 
-        j = json.loads(input_file.read().decode("utf-8-sig"))
-        print type(j)
-        tracksToFeatures[tracks[title]] = j
+				j = json.loads(input_file.read().decode("utf-8-sig"))
+				return j
+
+		print type(j)
+		tracksToFeatures[tracks[title]] = j
 #        for key in j:
 #            print j[key]
 #            tracksToFeatures[tracks[title]][key] = j[key]
 #            break
-        break
-    pickle.dump(tracksToFeatures, open("trackToFeatures.p", "wb"))
+		break
+		pickle.dump(tracksToFeatures, open("trackToFeatures.p", "wb"))
 
 constructNamesToTuple()
