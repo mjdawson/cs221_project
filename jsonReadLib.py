@@ -66,18 +66,16 @@ def constructNamesToTuple():
     trackToFeatureTuples = collections.defaultdict()
     for key in tracks:
 		# just open the file...
-		input_file  = file('audioAnalysis/' + tracks[key] + ".json", "r")
+		input_file  = file('audioFeatures/' + tracks[key] + ".json", "r")
 		# need to use codecs for output to avoid error in json.dump
 
 		# read the file and decode possible UTF-8 signature at the beginning
 		# which can be the case in some files.
 		j = json.loads(input_file.read().decode("utf-8-sig"))
-                pprint(j)
-                break
                 #key, time signature, tempo, valence, loudness, danceability, energy, acousticness, speechiness
-                trackToFeatureTuples[tracks[key]] = (j["track"]["key"], j["track"]["time_signature"], \
-                    j["track"]["tempo"], j["track"]["valence"], j["track"]["loudness"], j["track"]["danceability"], \
-                    j["track"]["energy"], j["track"]["acousticness"], j["track"]["speechiness"])
+                trackToFeatureTuples[tracks[key]] = (j["key"], j["time_signature"],
+                    j["tempo"], j["valence"], j["loudness"], j["danceability"], \
+                    j["energy"], j["acousticness"], j["speechiness"])
 
     
     pickle.dump(trackToFeatureTuples, open("trackToFeatureTuples.p", "wb"))
