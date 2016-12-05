@@ -24,6 +24,7 @@ class mashupSearchProblem(util.SearchProblem):
 			newNumSegsVisited = numSegsVisited + 1
 			newNumConsecSameSongSegs = 0
 			# if seg, lastSeg not from same song, increment newNumConsecSameSongs
+			# new comment
 
 			edges.append((seg, (seg, newNumSegsVisited, newNumConsecSameSongSegs), cost))
 		
