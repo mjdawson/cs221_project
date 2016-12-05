@@ -2,10 +2,11 @@ import wav_manipulation as wm
 import os
 import random
 import pickle
+import collections
 
 #key, time signature, tempo, valence, loudness, danceability, energy, acousticness, speechiness 
 
-weights = [1, 1, 1, 1, 1, 1, 1, 1, 1]
+weights = [10., 10., 1., 1., 1., 1., 1., 1., 1.]
 #ToDo: update to use new features
 def calc_dist(feats1, feats2):
 
@@ -20,14 +21,15 @@ def calc_dist(feats1, feats2):
         # speechiness: 0 to 1
 
         phi = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        # if keys don't match
-	if feats1[0] == feats2[0]:
-	    phi[0] = 0
-	# if time signatures
+        # if keys don't match, increase distance
+	if feats1[0] != feats2[0]:
+	    phi[0] = 1
+	# if time signatures don't match, increase distance
 	if feats1[1] != feats2[1]:
-	    phi[1] = 0
+	    phi[1] = 1
         # tempo
-        phi[2] = abs(feats1[2] - feats2[2])
+        # percentage difference between 0 and 100
+        phi[2] = abs(feats1[2] - feats2[2])/(100*max(feats1[2], feats2[2]))
         # valence
 	phi[3] = abs(feats1[3] - feats2[3])
 
@@ -82,7 +84,7 @@ def kmeans(track_features, k):
 
 			for j in xrange(k):
 				centroid_features = track_features[centroids[j]]
-				dist = calc_dist(features, centroid_features)
+                                dist = calc_dist(features, centroid_features)
 				if dist < smallest_dist:
 					smallest_dist = dist
 					assigned_centroid = j
@@ -113,9 +115,23 @@ def kmeans(track_features, k):
 	
 	return clusters
 
+def distTest(track_features):
+    tracks = track_features.keys()
+    distances = []
+    for x in range(len(tracks)):
+        for y in range(x+1, len(tracks)):
+#            print "dist btwn %s and %s " % (tracks[x], tracks[y])
+            dist = calc_dist(track_features[tracks[x]], track_features[tracks[y]])
+            distances.append((tracks[x], tracks[y], dist))
+ #           print dist
+    sorted_dists = sorted(distances, key = lambda x: x[2], reverse = True)
+    for dist in sorted_dists:
+        print dist
 if __name__ == "__main__":
 	track_features = pickle.load(open('trackToFeatureTuples.p', 'rb'))
-	clusters = kmeans(track_features, 5)
-	for i in xrange(5):
-            print clusters[i]
+        distTest(track_features)
+
+#	clusters = kmeans(track_features, 5)
+#	for i in xrange(5):
+#            print clusters[i]
 	#	mashup_from_cluster(clusters[i], i)
