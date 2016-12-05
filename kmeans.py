@@ -3,20 +3,53 @@ import os
 import random
 import pickle
 
+#key, time signature, tempo, valence, loudness, danceability, energy, acousticness, speechiness 
+
+weights = [1, 1, 1, 1, 1, 1, 1, 1, 1]
 #ToDo: update to use new features
 def calc_dist(feats1, feats2):
-	key1, time_sign1, tempo1 = feats1
-	key2, time_sign2, tempo2 = feats2
 
-	dist = 0
+        # key: 0 to 12
+        # time signature: int
+        # tempo: BPM
+        # valence: 0 to 1
+        # loudness: -60 to 0
+        # danceability: 0 to 1
+        # energy: 0 to 1
+        # acousticness: 0 to 1, confidence measure
+        # speechiness: 0 to 1
 
-	if key1 != key2:
-		dist += 50 
-	
-	if time_sign1 != time_sign2:
-		dist += 70
+        phi = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        # if keys don't match
+	if feats1[0] == feats2[0]:
+	    phi[0] = 0
+	# if time signatures
+	if feats1[1] != feats2[1]:
+	    phi[1] = 0
+        # tempo
+        phi[2] = abs(feats1[2] - feats2[2])
+        # valence
+	phi[3] = abs(feats1[3] - feats2[3])
 
-	dist += abs(tempo1 - tempo2)
+        # loudness
+        phi[4] = abs(feats1[4] - feats2[4])
+
+        #danceability
+        phi[5] = abs(feats1[5] - feats2[5])
+
+        #energy
+        phi[6] = abs(feats1[6] - feats2[6])
+
+        #acousticness
+        phi[7] = abs(feats1[7] - feats2[7])
+
+        #speechiness
+        phi[8] = abs(feats1[8] - feats2[8])
+
+        #dot product
+        dist = 0
+        for i in range(len(phi)):
+            dist += phi[i]*weights[i]
 	return dist
 
 def mashup_from_cluster(cluster, i):
@@ -32,8 +65,6 @@ def mashup_from_cluster(cluster, i):
 	wm.stitch_segments(segments, i)
 
 #songs should be map from song index to (filename, audiofeatures)
-
-#ToDo: update everything that needs track_features
 def kmeans(track_features, k):
 	max_iters = 1000
 
@@ -83,9 +114,8 @@ def kmeans(track_features, k):
 	return clusters
 
 if __name__ == "__main__":
-        #change this
-	track_features = pickle.load(open('trackToFeatures.p', 'rb'))
-	print track_features
+	track_features = pickle.load(open('trackToFeatureTuples.p', 'rb'))
 	clusters = kmeans(track_features, 5)
 	for i in xrange(5):
-		mashup_from_cluster(clusters[i], i)
+            print clusters[i]
+	#	mashup_from_cluster(clusters[i], i)
