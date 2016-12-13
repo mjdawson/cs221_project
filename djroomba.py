@@ -12,6 +12,7 @@ track_features_small = pickle.load(open('trackToFeatureTuples.p', 'rb'))
 clusters = km.kmeans(track_features_small, 10)
 
 track_features_full = j.constructNamesToDict()
+cluster_num = 0
 
 for cluster in clusters:
   # list of Segment objects
@@ -35,7 +36,7 @@ for cluster in clusters:
   sp = mashupSearchProblem(cluster_30segments, start, 5, sc.segmentsCost)
   ucs_alg = ucs.UniformCostSearch()
   ucs_alg.solve(sp)
-  print ucs_alg.actions
+  #print ucs_alg.actions
   #print [(a[0].trackName, a[0].indexInTrack) for a in ucs_alg.actions]
   mashup = [s for s in start] + [s for a in ucs_alg.actions for s in a]
  
@@ -50,7 +51,8 @@ for cluster in clusters:
       continue
     segment_titles.append(title)
 
-  wm.stitch_segments(segment_titles, 0)
+  wm.stitch_segments(segment_titles, cluster_num)
+  cluster_num += 1
 
   break
 

@@ -18,7 +18,7 @@ class mashupSearchProblem(ucs.SearchProblem):
     return numSegsVisited == self.maxNumSegs
 
   def succAndCost(self, state):
-    print state
+    #print state
     lastSeg, numSegsVisited, numConsecSameSongSegs = state
     lastSeg30 = self.segToSeg30[lastSeg]
     self.visited[lastSeg] = True

@@ -1,7 +1,10 @@
 import wave
+import soundtouch as st
 import os.path
 
 DIR = "./songs_wav/"
+# for intermediate segment wav files, make sure this folder is there
+INTMD_DIR = "./intermediates/"
 
 def cut_segment(trackname, start_s, end_s):
   # might need to deal with directories
@@ -28,7 +31,7 @@ def cut_segment(trackname, start_s, end_s):
   segment_title = trackname + ':' + str(start_s) + '-' + str(end_s)
   segment_filename = segment_title + '.wav'
 
-  ww = wave.open(segment_filename, 'wb')
+  ww = wave.open(INTMD_DIR + segment_filename, 'wb')
   ww.setnchannels(num_chan)
   ww.setsampwidth(sample_width)
   ww.setframerate(frame_rate)
@@ -44,7 +47,7 @@ def stitch_segments(segments, cluster_num):
     return
 
   first_filename = segments[0] + '.wav'
-  wr = wave.open(first_filename, 'rb')
+  wr = wave.open(INTMD_DIR + first_filename, 'rb')
 
   # use these values from first file for new file
   num_chan = wr.getnchannels()
@@ -56,7 +59,7 @@ def stitch_segments(segments, cluster_num):
   frames = None
 
   for trackname in segments:
-    filename = trackname + '.wav'
+    filename = INTMD_DIR + trackname + '.wav'
     wr = wave.open(filename, 'rb')
     num_frames = wr.getnframes()
     

@@ -3,10 +3,11 @@ import os
 import random
 import pickle
 import collections
+#import pdb
 
 #key, time signature, tempo, valence, loudness, danceability, energy, acousticness, speechiness 
 
-weights = [10., 10., 1., 1., 1., 1., 1., 1., 1.]
+weights = [40., 40., 40., 10., 20., 20., 5., 5., 5.]
 #ToDo: update to use new features
 def calc_dist(feats1, feats2):
 
@@ -27,12 +28,20 @@ def calc_dist(feats1, feats2):
     phi[0] = 1
 
   # if time signatures don't match, increase distance
+  if feats1[0] != feats2[0]:
+    # cadence
+    if min(feats1[0], feats2[0])+5 == max(feats1[0], feats2[0]):
+      phi[0] = 0.5
+    else:
+      phi[0] = 1
+
+
   if feats1[1] != feats2[1]:
     phi[1] = 1
 
   # tempo
   # percentage difference between 0 and 100
-  phi[2] = abs(feats1[2] - feats2[2])/(100*max(feats1[2], feats2[2]))
+  phi[2] = 1  - min(feats1[2], feats2[2])/max(feats1[2], feats2[2])
 
   # valence
   phi[3] = abs(feats1[3] - feats2[3])
