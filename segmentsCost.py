@@ -1,3 +1,4 @@
+dist_weights = [1., 3., 5.]
 
 def l2NormWithDecay(v1, v2, gamma):
   assert len(v1) == len(v2)
@@ -27,7 +28,7 @@ def segmentsCost(seg1, seg2, numConsecSameSongSegs):
 
 #  baseline_threshold = 0
 # threshold = baseline_threshold + 4 * numConsecSameSongSegs
-  total_cost = loudness_cost + pitches_cost + timbre_cost
+  total_cost = dist_weights[0] * loudness_cost + dist_weights[1] * pitches_cost + dist_weights[2] * timbre_cost
   return total_cost
 
 #  if total_cost < threshold or seg1.trackName != seg2.trackName:
