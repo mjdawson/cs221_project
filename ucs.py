@@ -1,5 +1,8 @@
 import heapq, collections, re, sys, time, os, random
 
+# implementation of ucs provided for assignment 3
+# NONE OF THIS IS OUR CODE
+
 ############################################################
 # Abstract interfaces for search problems and search algorithms.
 

@@ -1,3 +1,37 @@
 DJ Roomba
 
+Note: Our various algorithms assume that the input WAV files are in a
+directory called 'songs_wav/', that there exists an 'intermediates'
+directory for the intermediate WAV files written, a pickled dictionary
+of track-level features in 'trackToFeatureTuples.p'.
+
+baseline.py: Our baseline implementation that stitches together random
+segments from random songs. Simple run 'python baseline.py'.
+
+jsonReadLib.py: Contains functions that convert the json responses from
+the Spotify API in 'audioFeatures' and 'audioAnalysis' to Python 
+dictionaries.
+
+wav_manipulation.py: Contains functions that use 'wave' Python module
+to manipulate WAV files.
+
+ucs.py: The implementation of uniform cost search that was provided to 
+us for the text reconstuction assignment. Nothing in this file is our
+code.
+
+mashupSearchProblem.py: Defines the search problem used in step 2 of our 
+algorithm.
+
+segmentsCost.py: Defines the cost function used in the above search
+problem.
+
+segment.py: Defines a Segment class for use in the above cost function.
+
+kmeans.py: Our own implementation of k-means clustering on track-level
+feature vectors.
+
+djroomba.py: Calls k-means, sets up the search problem, calls uniform
+cost search, then constructs the resulting compilations.
+
+To run our algorithm: 'python djroomba.py'
 
