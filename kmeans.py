@@ -25,29 +25,24 @@ def calc_dist(feats1, feats2):
 
   # if keys don't match, increase distance
   if feats1[0] != feats2[0]:
-    phi[0] = 1
-
-  # if time signatures don't match, increase distance
-  if feats1[0] != feats2[0]:
     # cadence
     if min(feats1[0], feats2[0])+5 == max(feats1[0], feats2[0]):
       phi[0] = 0.5
     else:
       phi[0] = 1
 
-
+  # if time signatures don't match, increase distance
   if feats1[1] != feats2[1]:
     phi[1] = 1
 
   # tempo
-  # percentage difference between 0 and 100
   phi[2] = 1  - min(feats1[2], feats2[2])/max(feats1[2], feats2[2])
 
   # valence
   phi[3] = abs(feats1[3] - feats2[3])
 
   # loudness
-  phi[4] = abs(feats1[4] - feats2[4])
+  phi[4] = abs(feats1[4] - feats2[4]) / 60.
 
   #danceability
   phi[5] = abs(feats1[5] - feats2[5])
