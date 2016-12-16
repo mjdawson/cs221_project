@@ -36,8 +36,6 @@ for cluster in clusters:
   sp = mashupSearchProblem(cluster_30segments, start, 5, sc.segmentsCost)
   ucs_alg = ucs.UniformCostSearch()
   ucs_alg.solve(sp)
-  #print ucs_alg.actions
-  #print [(a[0].trackName, a[0].indexInTrack) for a in ucs_alg.actions]
   mashup = [s for s in start] + [s for a in ucs_alg.actions for s in a]
  
   segment_titles = []

@@ -1,5 +1,5 @@
 import wave
-import soundtouch as st
+#import soundtouch as st
 import os.path
 
 DIR = "./songs_wav/"
