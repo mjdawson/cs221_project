@@ -1,9 +1,11 @@
 DJ Roomba
 
 Note: Our various algorithms assume that the input WAV files are in a
-directory called 'songs_wav/', that there exists an 'intermediates'
+directory called 'songs_wav', that there exists an 'intermediates'
 directory for the intermediate WAV files written, a pickled dictionary
-of track-level features in 'trackToFeatureTuples.p'.
+of track-level features in 'trackToFeatureTuples.p', and directories
+'audioAnalysis' and 'audioFeatures' containing the json responses from
+the Spotify API.
 
 baseline.py: Our baseline implementation that stitches together random
 segments from random songs. Simple run 'python baseline.py'.
